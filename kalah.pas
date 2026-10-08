@@ -477,7 +477,7 @@ _(
 _);
 _procedure dsplBoard(_var pckPits:_array [0..1] _of word);
 _var pitIndex, stoneCount:integer;unpackedSide:OneSide;
-_procedure drawPit(pit:integer);
+_procedure drawPits(pit:integer);
 _(
   write(oparen:2);
   stoneCount := unpackedSide.pits[pit].val;
@@ -856,7 +856,7 @@ _(
   _)
 _);
 
-_functin exMvAnimated(_var pos:Position; pitIdx:integer):integer;
+_function exMvAnimated(_var pos:Position; pitIdx:integer):integer;
 _label 4171;
 _var
 curPlr:word;        % Current player as word (for .i and .b access)

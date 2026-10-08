@@ -92,6 +92,31 @@ make CXXFLAGS="-std=c++17 -Wall -Wextra -O3 -march=native -DNDEBUG"
 make LDFLAGS="-lncurses -static"
 ```
 
+## Building the original `kalah.pas` (BESM-6 / Дубна)
+
+The Pascal source compiles on the Dubna monitor system under the `dispak`
+package emulator (`/usr/local/bin/dispak`; see also `~/Yandex.Disk/pascal-re`).
+`comp.sh` shows the interaction; a non-interactive equivalent:
+
+```
+BESM6_PATH=~/.besm6:/usr/local/share/besm6:~/Yandex.Disk/simh/BESM6/MD:~/Yandex.Disk/simh/BESM6/MD/EC5061:~/Yandex.Disk/simh/BESM6/ML \
+  dispak pult2.b6 < deck.txt
+```
+
+`deck.txt` = `з буф=тт`, then each source line with a trailing `\`, then `//`,
+then `пас буф - зонгп 500200 10` (compile to the scratch volume 1234, zone 0200
+octal) and `конец`. The compiler is `ПАСКАЛЬ-АВТОКОД 9.(17.05.88)`; keywords are
+written `_program`, `_if`, ... with `_( ... _)` blocks, and identifiers are
+significant to 6 characters. `зонгп <ЛУ><зона> <число зон>` links and writes the
+group (header `000КАЛАХ <дата> 00010]` plus relocatable-free object). To place the
+game next to the lunar-lander program, mount volume 2061 with
+`лент 51(2061-ЗП)^` in the boot deck and use `зонгп 511044 10` (the `LАNDIN`
+group occupies zones 1042-1043 octal there). Check the result with
+`besmtool view 2061 --start=548 --encoding=g,k` and reassemble with `reasm.sh`
+plus `./dtran -n -E entry.txt -d` to compare against the reference object.
+Only ever write to working copies under `~/.besm6/`; keep backups before
+touching any volume image.
+
 ## Verification
 
 After building, verify the installation:

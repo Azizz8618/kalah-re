@@ -237,6 +237,30 @@ This C++ recreation is provided for educational and recreational purposes.
 - C++ recreation: 2026
 - Game rules: Ancient (believed to be 6th-7th century origins)
 
+## The BESM-6 original: compile and record (Дубна monitor)
+
+`kalah.pas` is written in the Dubna (Monitor-80 / ПУЛЬТ) Pascal dialect and can be
+compiled and recorded on a real BESM-6 volume image with the local toolchain:
+
+```
+BESM6_PATH=~/.besm6:/usr/local/share/besm6:<simh MD dirs> dispak pult2.b6 < deck
+# deck: "з буф=тт", source lines with trailing \, "//",
+#       "пас буф - зонгп <ЛУ><зона8> <зон>", "конец"
+```
+
+`пас` runs the ПАСКАЛЬ-АВТОКОД compiler shipped with the ПУЛЬТ system; `зонгп` links
+and writes the program group (`000КАЛАХ <date> 00010` header + object) to a disk zone.
+The КАЛАХ group is recorded on the same archive volume as the lunar-lander game
+(`LАNDIN`, volume 2061, zones 1042-1043 octal), at zone 1044 octal. The compiled
+object is byte-comparable with the reference `kalah.o` (see `reasm.sh`, `dtran`).
+
+Related local projects: `../pascal-re` (Паскаль-Монитор compiler reconstruction and
+PERSO pipeline), `../bega-re` (the JINN game module: `landing.pas`, `bega.pas`),
+`../ie15` (Электроника 15ИЭ terminal emulator, connects to the SIMH ДИСПАК Э-60
+lines; game line port 4199), `../simh/BESM6` (hardware emulator,
+`BESM6/OSZAGR/dispak.ini`), `../re-dispak` (ОС ДИСПАК sources; DISPAK manuals in
+`re-dispak/docs/`). Index: `../BESM6_PROJECTS.md`.
+
 ## References
 
 - Original program: `kalah.pas` (BESM-6 Pascal dialect)
