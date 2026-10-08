@@ -2081,7 +2081,7 @@ _(
   writeUserName;
   _select
     difficultyLevel = 1 : c := 'Ю';
-    difficultyLevel = 2 : c := 'K';
+    difficultyLevel = 2 : c := 'К';
     difficultyLevel = 3 : c := 'У';
     difficultyLevel = 4 : c := 'Э'
   _end;
