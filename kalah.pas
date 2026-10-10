@@ -519,9 +519,11 @@ _);
 
 _procedure dsplTitle;
 _(
+  (* version marker: last two cells of the underline read «v2», same 23-char
+     length as the original string so the literal data stays byte-aligned *)
   write('К    А    Л    А    Х':46);
   writeTerminalOutput;
-  write('^^^^^^^^^^^^^^^^^^^^^^^':48);
+  write('^^^^^^^^^^^^^^^^^^^^^V3':48);
   writeTerminalOutput;
 _);
 
@@ -615,8 +617,13 @@ _label 10266, 999, 12341, 11426, 11616, 11531, 11027, 12032, 12162,
 _const billion = 1000000000; hundredMillion = 100000000;
 minusHundredMillion = 37777202417400C; lakh = 100000;
 minusLakh = 37777777474540C; million = 1000000;
-bookSize = 8415; cbb = 72; erase = '{162'; right = '{171'; left = '{146';
-up = '{176'; down = '{177'; delay = '{142';
+bookSize = 8415; cbb = 72;
+(* Терминал — 15ИЭ (коды Видеотона-340), НЕ ЭК071: замер парсером 15ИЭ показал,
+   что ЭК071-коды 146/171/176/177 печатаются буквами, а двигают курсор только
+   008(влево)/030(вправо)/031(вверх)/032(вниз)/037(стереть); заполнитель — 013(VT,
+   без действия), а НЕ пробел. *)
+erase = '{037'; right = '{030'; left = '{010';
+up = '{031'; down = '{032'; delay = '{013';
 _type
 Position = _array [jinn..user] _of OneSide;
 pckboth = _array [jinn..user] _of word;
@@ -884,6 +891,9 @@ adjPit:integer;     % Adjusted pit index for screen positioning
 stoneCount:integer; % Number of stones to display in pit
 dir:char;           % Direction character (left/right/up/down)
 _(
+  (* Вариант 2: пошаговая отрисовка хода отключена — она оставляла мусор на экране.
+     Итоговое поле выводится мгновенной полной перерисовкой после хода. *)
+  exit;
   _if pitNum = 7 _then _(
     targRow := 0;
     _if p = user _then
@@ -956,7 +966,6 @@ _( (* exMvAnimated *)
     _);
     (*=c-*)loopCt := oppPlr.i = 0; (*=c+*)
     stones := stones + oppPlr.i;
-    writeCharNTimes(up, curPlr.i);
     _for maxPit := 1 _to 6 _do _(
       _if pos[loopCt].pits[maxPit].val > 0 _then _(
         pos[loopCt].pits[maxPit].val := 0;
@@ -969,9 +978,8 @@ _( (* exMvAnimated *)
     cursCol := 7;
     stones := pos[curPlr.i].pits[pitIdx].val;
     pos[curPlr.i].pits[pitIdx].val := 0;
-    writeCharNTimes(up, curPlr.i);
-    write(totalMovesPlayed:4);
-    write(space:3);
+    (* Вариант 2: курсорные сдвиги и счётчик убраны — кадр целиком рисует
+       перерисовка после хода, поэтому здесь ничего не выводим. *)
     drawMove(curPlr.i, pitIdx);
     (loop) _(
      oppPlr.b := _not curPlr.b;
@@ -1024,14 +1032,7 @@ _( (* exMvAnimated *)
   _)
   _); (* 4171 *)
 4171:
-  writeCharNTimes(left, cursCol);
-  _if cursRow > 0 _then _(
-    dirChr := down;
-  _) _else _if cursRow < 0 _then _(
-    cursRow := -cursRow;
-    dirChr := up;
-  _);
-  writeCharNTimes( dirChr, cursRow );
+  (* Вариант 2: возврат курсора не нужен — после хода кадр рисуется заново. *)
   writeTerminalOutput;
 _);
 _function isGameOver(_var pos:Position): boolean;
@@ -2725,6 +2726,11 @@ _( (* playGameSession *)
   _if enableLogging _then logChar( chr(seledMove) );
   moveResult :=   exMvAnimated(curPosition, seledMove );
   writeCharNTimes(down, 1 );
+  (* Вариант 2: вместо залипания кадров пошаговой анимации — мгновенная чистая
+     перерисовка всего экрана по итоговой позиции после каждого хода. *)
+  write(erase);
+  packPosition(curPosition, pckPosition);
+  dsplGameHeader;
   _if moveResult <> 0 _then _goto 12162;
   _if (userFinalKalah = 12) _and isGameOver(curPosition) _then
     _goto 12240
