@@ -611,6 +611,26 @@ _( (* saveLogToZone *)
     writeDiskZone( nu, zoneLog );
   _)
 _);
+_procedure rules;
+_(
+  write('ПРАВИЛА ИГРЫ КАЛАХ:{175
+ ПОЛЕ: ПО 6 ЛУНОК В РЯДУ И ПО МАГАЗИНУ К У КАЖДОГО.
+ ВЫ - НИЖНИЙ РЯД (ЛУНКИ 1..6), ВАШ К СПРАВА; ДЖИН - ВЕРХНИЙ.
+ В НАЧАЛЕ В 12 МАЛЫХ ЛУНКАХ ПО 6 КАМНЕЙ.
+ ХОД: ЦИФРА 1..6 - ВЗЯТЬ ВСЕ КАМНИ ИЗ СВОЕЙ ЛУНКИ И КЛАСТЬ ПО
+ ОДНОМУ ВПЕРЕД: СВОИ ЛУНКИ, СВОЙ К, ЛУНКИ СОПЕРНИКА (В ЧУЖОЙ
+ К НЕ КЛАДЕМ). ПОСЛЕДНИЙ КАМЕНЬ: В СВОЙ К - ХОД ЕЩЕ РАЗ; В СВОЮ
+ ПУСТУЮ, А ЗЕРКАЛЬНАЯ СОПЕРНИКА НЕ ПУСТА - ЗАХВАТ В СВОЙ К;
+ ИНАЧЕ ХОД СОПЕРНИКУ. КОНЕЦ КОГДА РЯД ПУСТ; БОЛЬШЕ В К - ПОБЕДА.
+ ПРИМЕР: ХОД ИЗ ЛУНКИ 2 (6 КАМНЕЙ): ЛУНКИ 3,4,5,6 +1 (СТАНУТ 7),
+ ВАШ К +1, ПОСЛЕДНИЙ - ЛУНКА 1 СОПЕРНИКА; ЛУНКА 2 ПУСТА.
+ ПРИМЕР ЗАХВАТА: ПОСЛЕДНИЙ В ВАШУ ПУСТУЮ ЛУНКУ 4, ЗЕРКАЛЬНАЯ
+ СОПЕРНИКА =3 - ЗАБИРАЕТЕ 1+3=4 В СВОЙ К.
+ КОМАНДЫ: ЦИФРА ХОД, СДА СДАТЬСЯ, ПОВ ПЕРЕРИСОВАТЬ, ПРА ПРАВИЛА,
+ КОН КОНЕЦ. СОКРАЩАЮТСЯ ДО БУКВ. КАЛ - ИГРА, КАЛ ТРЕ - ТРЕНИРОВКА.');
+  writeTerminalOutput;
+  readTerminalInput(false)
+_);
 _procedure playGameSession;
 _label 10266, 999, 12341, 11426, 11616, 11531, 11027, 12032, 12162,
 11225, 11252, 11772, 11142, 12013, 12240, 12244, 10773;
@@ -2267,6 +2287,7 @@ _( (* playGameSession *)
   code(7ПАОБРАБ=ВИ7,Э050103=,СЧ=Э050102,ВИ1=7ЗЧ1,ВИ2=7ЗЧ2,ВИ17=7ЗЧ3,ВИ13=7ЗЧ4,ПБЧЕРЕЗ=,ОБРАБ:7ПАОБРАБ=7ПБ5,С;0,0,0,0,К;7СЧ1=УИ1,7СЧ2=УИ2,7СЧ3=УИ17,7СЧ4=УИ13,СЧ=УИ10,СЧ=ЗЧ76013,РА3=);
   allowExit := true;
   gamesPlayedToday := 5;
+  write('НУЖНЫ ПРАВИЛА ?  НАБЕРИТЕ ПРА'); writeTerminalOutput;
   _if isTrainingGame _then _goto 12341 _else _goto 11252;
   code(ЧЕРЕЗ:);
   _if INP@ = 'B' _then _(
@@ -2459,6 +2480,13 @@ _( (* playGameSession *)
       cursorCol := ;
       _goto 10773;
     _); (* 11164 *)
+    _if matchesCommand( 'ПРА   ') _then _(
+      rules;
+      write(erase);
+      packPosition(curPosition, pckPosition);
+      dsplGameHeader;
+      _goto 10773;
+    _);
     _if matchesCommand( 'ОТЛ   ') _or matchesCommand( 'КОН   ') _then _(
       _if isTrainingGame _then _(
       _if matchesCommand( 'ОТЛ   ') _then _(
@@ -2890,6 +2918,7 @@ _(
     'ИГР   ' = commandEntered :
       _if INP@ = charEtx _then _goto 12561 _else _goto 12566;
     'КАЛ   ' = commandEntered :  playGameSession;
+    'ПРА   ' = commandEntered : _( rules; _goto 12561 _);
     ('ТУР   ' = commandEntered) _or
     ('ПЕЧ   ' = commandEntered) _or
     ('ЭКР   ' = commandEntered) : _( gameActive := false; exec( 2400236C ) _);
