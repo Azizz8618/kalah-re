@@ -613,22 +613,25 @@ _( (* saveLogToZone *)
 _);
 _procedure rules;
 _(
-  write('ПРАВИЛА ИГРЫ КАЛАХ:{175
- ПОЛЕ: ПО 6 ЛУНОК В РЯДУ И ПО МАГАЗИНУ К У КАЖДОГО.
- ВЫ - НИЖНИЙ РЯД (ЛУНКИ 1..6), ВАШ К СПРАВА; ДЖИН - ВЕРХНИЙ.
- В НАЧАЛЕ В 12 МАЛЫХ ЛУНКАХ ПО 6 КАМНЕЙ.
- ХОД: ЦИФРА 1..6 - ВЗЯТЬ ВСЕ КАМНИ ИЗ СВОЕЙ ЛУНКИ И КЛАСТЬ ПО
- ОДНОМУ ВПЕРЕД: СВОИ ЛУНКИ, СВОЙ К, ЛУНКИ СОПЕРНИКА (В ЧУЖОЙ
- К НЕ КЛАДЕМ). ПОСЛЕДНИЙ КАМЕНЬ: В СВОЙ К - ХОД ЕЩЕ РАЗ; В СВОЮ
- ПУСТУЮ, А ЗЕРКАЛЬНАЯ СОПЕРНИКА НЕ ПУСТА - ЗАХВАТ В СВОЙ К;
- ИНАЧЕ ХОД СОПЕРНИКУ. КОНЕЦ КОГДА РЯД ПУСТ; БОЛЬШЕ В К - ПОБЕДА.
- ПРИМЕР: ХОД ИЗ ЛУНКИ 2 (6 КАМНЕЙ): ЛУНКИ 3,4,5,6 +1 (СТАНУТ 7),
- ВАШ К +1, ПОСЛЕДНИЙ - ЛУНКА 1 СОПЕРНИКА; ЛУНКА 2 ПУСТА.
- ПРИМЕР ЗАХВАТА: ПОСЛЕДНИЙ В ВАШУ ПУСТУЮ ЛУНКУ 4, ЗЕРКАЛЬНАЯ
- СОПЕРНИКА =3 - ЗАБИРАЕТЕ 1+3=4 В СВОЙ К.
- КОМАНДЫ: ЦИФРА ХОД, СДА СДАТЬСЯ, ПОВ ПЕРЕРИСОВАТЬ, ПРА ПРАВИЛА,
- КОН КОНЕЦ. СОКРАЩАЮТСЯ ДО БУКВ. КАЛ - ИГРА, КАЛ ТРЕ - ТРЕНИРОВКА.');
-  writeTerminalOutput;
+  write('ПРАВИЛА ИГРЫ КАЛАХ:'); writeTerminalOutput;
+  write(' ПОЛЕ: ПО 6 ЛУНОК В РЯДУ И ПО МАГАЗИНУ К У КАЖДОГО.'); writeTerminalOutput;
+  write(' ВЫ - НИЖНИЙ РЯД (ЛУНКИ 1..6), ВАШ К СПРАВА; ДЖИН - ВЕРХНИЙ.'); writeTerminalOutput;
+  write(' В НАЧАЛЕ В 12 МАЛЫХ ЛУНКАХ ПО 6 КАМНЕЙ.'); writeTerminalOutput;
+  write(' ХОД: ЦИФРА 1..6 - ВЗЯТЬ ВСЕ КАМНИ ИЗ СВОЕЙ ЛУНКИ И КЛАСТЬ'); writeTerminalOutput;
+  write(' ПО ОДНОМУ ВПЕРЕД: СВОИ ЛУНКИ, СВОЙ К, ЛУНКИ СОПЕРНИКА'); writeTerminalOutput;
+  write(' (В ЧУЖОЙ К НЕ КЛАДЕМ).'); writeTerminalOutput;
+  write(' ПОСЛЕДНИЙ КАМЕНЬ: В СВОЙ К - ХОД ЕЩЕ РАЗ.'); writeTerminalOutput;
+  write(' В СВОЮ ПУСТУЮ, А ЗЕРКАЛЬНАЯ СОПЕРНИКА НЕ ПУСТА - ЗАХВАТ'); writeTerminalOutput;
+  write(' В СВОЙ К; ИНАЧЕ ХОД СОПЕРНИКУ.'); writeTerminalOutput;
+  write(' КОНЕЦ КОГДА РЯД ПУСТ; БОЛЬШЕ В К - ПОБЕДА.'); writeTerminalOutput;
+  write(' ПРИМЕР: ХОД ИЗ ЛУНКИ 2 (6 КАМНЕЙ): ЛУНКИ 3,4,5,6 +1 (СТАНУТ 7),'); writeTerminalOutput;
+  write(' ВАШ К +1, ПОСЛЕДНИЙ - ЛУНКА 1 СОПЕРНИКА; ЛУНКА 2 ПУСТА.'); writeTerminalOutput;
+  write(' ПРИМЕР ЗАХВАТА: ПОСЛЕДНИЙ В ВАШУ ПУСТУЮ ЛУНКУ 4, ЗЕРКАЛЬНАЯ'); writeTerminalOutput;
+  write(' СОПЕРНИКА =3 - ЗАБИРАЕТЕ 1+3=4 В СВОЙ К.'); writeTerminalOutput;
+  write(' КОМАНДЫ: ЦИФРА ХОД, СДА СДАТЬСЯ, ПОВ ПЕРЕРИСОВАТЬ,'); writeTerminalOutput;
+  write(' ПРА ПРАВИЛА, КОН КОНЕЦ.'); writeTerminalOutput;
+  write(' СОКРАЩАЮТСЯ ДО БУКВ.'); writeTerminalOutput;
+  write(' КАЛ - ИГРА, КАЛ ТРЕ - ТРЕНИРОВКА.'); writeTerminalOutput;
   readTerminalInput(false)
 _);
 _procedure playGameSession;
@@ -994,7 +997,7 @@ _( (* exMvAnimated *)
     _);
     pos[loopCt].pits[7].val := pos[loopCt].pits[7].val + stones;
     drawMove(loopCt, 7);
-  _) _else _( (* 4035 *)
+  _) _else _(
     cursCol := 7;
     stones := pos[curPlr.i].pits[pitIdx].val;
     pos[curPlr.i].pits[pitIdx].val := 0;
@@ -1050,7 +1053,7 @@ _( (* exMvAnimated *)
 % L4167:
     _)
   _)
-  _); (* 4171 *)
+  _);
 4171:
   (* Вариант 2: возврат курсора не нужен — после хода кадр рисуется заново. *)
   writeTerminalOutput;
@@ -1311,7 +1314,7 @@ _(
     _if (nodesSearched - startNodes > maxNodes) _and (legalMoves <> 0) _then _(
       alphaBetaCutoffs := alphaBetaCutoffs + 1;
       _goto 5050
-    _); (* 4737 *)
+    _);
     (*=m+ may be unnecessary, but helps matching code for mul/mod/div by powers of 2 *)
     curPit := mvSc[pitIndex];
     _if curPit = 0 _then _goto 999;
@@ -1330,18 +1333,18 @@ _(
         evalScore := minimax(newPosition, depth, maxNodes, localAlpha, betaCopy)
       _);
       moveResult = 0: _goto 999
-    _end; (* 5025 *)
+    _end;
     _if evalScore > bestScore _then _(
       bestScore := evalScore;
       bestMove := curPit;
-    _); (* 5031 *)
+    _);
     legalMoves := legalMoves + 1;
     _if (bestScore >= beta) _and (bestScore <> billion) _then _(
       bestScore := beta;
       _goto 5054
     _);
 999:;
-  _); (* 5042 *)
+  _);
   _if legalMoves = 0 _then _(
     bestScore := materialDifference(testPosition);
   _);
@@ -1391,7 +1394,7 @@ _(
       true : continuations := consultOpeningBook(testPosition, bookIndex + moveNumber) + continuations
       _end;
     _)
-  _); (* 5204 *)
+  _);
   consultOpeningBook := continuations;
 _);
 _( (* selAIMove *)
@@ -1437,7 +1440,7 @@ _( (* selAIMove *)
      _goto 5655;
    _);
    baseEval := evaluatePosition(curPos);
-  _); (* 5325 *)
+  _);
   legalMoveCount := 1;
   idx1 := curPos[user].move.i;
   nodeBudget := maxNodesToSearch;
@@ -1457,7 +1460,7 @@ _( (* selAIMove *)
         writeln('ПУСТАЯ ЛУНКА В ДЕБЮТАХ - "ЧП" !');
         writeln('ИСТОРИЯ ', openingBookIndex:1);
         _GOTO 12561;
-      _); (* 5401 *)
+      _);
       idx1 := idx1 + 1;
       retVal := pitIndex;
       _if moveType = 2 _then
@@ -1465,9 +1468,9 @@ _( (* selAIMove *)
       _else
         moveWeight := 1;
       moveValues[pitIndex] := moveWeight;
-    _) (* 5417 *)
+    _)
     _else moveExecuted[pitIndex] := 0;
-    _) _else _( (* 5422 *)
+    _) _else _(
       moveType := exMvLogic(testPos, pitIndex);
       moveExecuted[pitIndex] := ;
       nodesBefore := nodesSearched;
@@ -1480,7 +1483,7 @@ _( (* selAIMove *)
           moveScore := - minimax(testPos, searchDepth-1, nodesPerMove, alpha, beta);
         _) _else _(
           moveScore :=   minimax(testPos, searchDepth, nodesPerMove, alpha, beta);
-        _); (* 5467 *)
+        _);
         nodeBudget := nodeBudget - nodesSearched + nodesBefore;
         moveScore := moveScore - baseEval;
         moveValues[pitIndex] := ;
@@ -1491,8 +1494,8 @@ _( (* selAIMove *)
         _);
         _if moveScore < worstScore _then worstScore := moveScore;
       _)
-    _); (* 5504 *)
-  _); (* 5506 *)
+    _);
+  _);
   _if idx1 < 2 _then _goto 5655;
   _if useOpeningBook _then
     averageScore := 0
@@ -1506,7 +1509,7 @@ _( (* selAIMove *)
     _);
     _if idx1 < 2 _then _goto 5655;
     averageScore := averageScore _div idx1 - 1;
-  _); (* 5541 *)
+  _);
   candCount := 0;
   scoreSum := ;
   _for idx2 := 1 _to 6 _do
@@ -1516,7 +1519,7 @@ _( (* selAIMove *)
     candWeight[candCount] := ;
     scoreSum := scoreSum + pitIndex;
     candMove[candCount] := idx2;
-  _); (* 5563 *)
+  _);
   _if candCount < 2 _then _goto 5655;
   totalWeight := 0;
   _for retVal := 1 _to candCount _do _(
@@ -1530,7 +1533,7 @@ _( (* selAIMove *)
       moveEntropy := moveEntropy - moveWeight * LN(moveWeight);
     totalWeight := moveWeight + totalWeight;
     candWeight[retVal] := ;
-  _); (* 5622 *)
+  _);
   moveEntropy := moveEntropy / totalWeight + LN(totalWeight);
   totalEntropy := moveEntropy + totalEntropy;
   uncertaintyBits := round(moveEntropy * 10.0 * oneOverLn2);
@@ -1540,7 +1543,7 @@ _( (* selAIMove *)
       retVal := candMove[bestScore];
       _goto 5655
     _)
-  _); (* 5650 *)
+  _);
   writeln('ОШ ДРЕВД');
   _GOTO 12561;
 5655:
@@ -1568,7 +1571,7 @@ _(
       _) _else _(
         corrStartIdx := searchIndex + 1;
       _)
-    _); (* 5723 *)
+    _);
     (loop) _for searchIndex := corrEndIdx _downto corrStartIdx _do _(
       _if sel(zoneBuffer@[searchIndex], 30, 15) = posSignature _then _(
         _exit loop
@@ -1576,25 +1579,25 @@ _(
         corrEndIdx := searchIndex - 1;
       _)
     _)
-  _); (* 5737 *)
+  _);
   (loop) _for searchIndex := corrStartIdx _to corrEndIdx _do _(
     _if sel(zoneBuffer@[searchIndex], bitPosition, 3) = suggestedMove _then _(
       _exit loop;
     _) _else _(
       corrStartIdx := searchIndex + 1;
     _)
-  _); (* 5754 *)
+  _);
   (loop) _for searchIndex := corrEndIdx _downto corrStartIdx _do _(
     _if sel(zoneBuffer@[searchIndex], bitPosition, 3) = suggestedMove _then _(
       _exit loop
     _) _else _(
       corrEndIdx := searchIndex - 1;
     _)
-  _); (* 5771 *)
+  _);
   _if corrStartIdx > corrEndIdx _then _(
     useCorrections := false;
     exit
-  _); (* 5774 *)
+  _);
   bitPosition := bitPosition - 3;
   _if corrStartIdx = corrEndIdx _then _(
     entryPtr := ptr(corrStartIdx + ord(zoneBuffer));
@@ -1746,7 +1749,7 @@ _( (* generateAIPhrase *)
       rndChoice = 2: write('ТЕПЕРЬ УЖЕ НИЧЕГО НЕ ИЗМЕНИШЬ.');
       rndChoice = 3: write('НЕ БУДЕМ ТЕРЯТЬ ВРЕМЕНИ.')
     _end;
-  _) _else (* 6414 *)
+  _) _else
      _if (jinnStones > 36) _or (userStones > 36) _then _(
        gameIsDecided := true;
        _select
@@ -1767,7 +1770,7 @@ _( (* generateAIPhrase *)
          true: _( write('СДАВАЙСЯ, ТЫ УЖЕ ПРОИГРАЛ'); maybeFeminine; _)
        _end
   _);
-  (* 6465 *) userStones > 36 : (again) _(
+ userStones > 36 : (again) _(
     rndChoice :=   randint(8);
     _select
       rndChoice = 0 : write('СЛЕДУЮЩИЙ РАЗ ОБЯЗАТЕЛЬНО ВЫИГРАЮ !');
@@ -1789,8 +1792,8 @@ _( (* generateAIPhrase *)
        write('О, ШАЙТАН !  ТЫ МЕНЯ ОБЫГРАЛ');  maybeFeminine;
      _)
      _end;
-  _) _end  (* 6545 *)
-  _) _else _( (* 6546 *)
+  _) _end
+  _) _else _(
   _if wordsSinceLastSpeak > 0 _then _(
     aiSilent := false;
     userSilent := ;
@@ -1823,18 +1826,18 @@ _( (* generateAIPhrase *)
      _select rndChoice = 1 : write('СХОДИ УМОЙСЯ ЛУННЫМ СВЕТОМ !');
                        true: write('ЗВЕЗДА АЛЬТАИР ВЗОШЛА, СДЕЛАЙ НАМАЗ.')
      _end;
-   _); (* 6626 *)
+   _);
    (rndChoice = 2) _and (jinnStones > userStones) : _(
      rndChoice :=   chkRandom( 1 );
      write('Я ПОКА ВЫИГРЫВАЮ');
-   _); (* 6636 *)
+   _);
    (rndChoice = 3) _and  (moveType = 2) : _(
      rndChoice :=   chkRandom( 3 );
      _select
        rndChoice = 1 : write('ЛЮБЛЮ ХОДИТЬ В КАЛАХ !');
        lastMoveResult = 2 : write('ЕЩЕ РАЗ В КАЛАХ - ХОРОШО !')
      _end;
-   _); (* 6654 *)
+   _);
    rndChoice = 4 : _(
      rndChoice :=   chkRandom( 6 );
      _select
@@ -1844,7 +1847,7 @@ _( (* generateAIPhrase *)
        rndChoice = 4 : write('ПРИЯТНО ПОИГРАТЬ В КАЛАХ !');
        true: write('Х-ММ !')
      _end;
-  _); (* 6704 *)
+  _);
   (rndChoice = 5) _and (jinnStones > userStones) _and (lastJinnKalah <= lastUserKalah) : _(
     rndChoice :=   chkRandom( 7 );
     write('СЕЙЧАС У МЕНЯ БУДЕТ ');
@@ -1855,19 +1858,19 @@ _( (* generateAIPhrase *)
    (rndChoice = 6) _and (jinnStones < userStones) : _(
      rndChoice :=   chkRandom( 2 );
      write('Я КАЖЕТСЯ ПРОИГРЫВАЮ');
-  _); (*  6734 *)
+  _);
   (rndChoice = 7) _and (jinnStones < userStones - 6) : _(
     rndChoice :=   chkRandom( 2 );
     write('НЕУЖЕЛИ Я ПРОИГРАЮ ?');
-  _); (* 6745 *)
+  _);
   (rndChoice = 8) _and (abs(jinnStones - userStones) < 3) : _(
     rndChoice :=   chkRandom( 2 );
     write('ПОСМОТРИМ КТО ВЫИГРАЕТ ?');
-  _); (* 6756 *)
+  _);
   (rndChoice = 9) _and (jinnStones > userStones) : _(
     rndChoice :=   chkRandom( 1 );
     write('Я ТЕБЕ НЕ ГОРНЫЙ ГУЛЬ !');
-  _); (* 6766 *)
+  _);
   (rndChoice = 10) _and _not useOpeningBook : _(
     rndChoice :=   chkRandom( 3 );
     rndChoice := nodesThisMove;
@@ -1880,17 +1883,17 @@ _( (* generateAIPhrase *)
       true : suffixChar := 'Й'
     _end;
     write(suffixChar, ', А ТЫ ?');
-  _); (* 7024 *)
+  _);
   (rndChoice = 11) _and (userStones - jinnStones > 4) : _(
     rndChoice :=   chkRandom( 1 );
     write('КАК БЫ ТЫ МЕНЯ НЕ ОБЫГРАЛ'); maybeFeminine;
-  _); (* 7036 *)
+  _);
   (rndChoice = 12) _and (curThinkTime > 1000) : _(
     rndChoice :=   chkRandom( 2 );
     write('ОЧЕНЬ ДОЛГО ДУМАЕШЬ');
     Dear;
     write(excl:2);
-  _); (* 7051 *)
+  _);
   (rndChoice = 13) _and isMasterLevel _and ((knownGender = MASC) _or (knownGender = FEM)) : _(
     rndChoice :=   chkRandom( 6 );
     write('НЕТ ТЕБЕ РАВНО');
@@ -1905,15 +1908,15 @@ _( (* generateAIPhrase *)
       true: write('ЭФИОПОВ')
     _end;
     write(excl:2);
-  _); (* 7125 *)
+  _);
   (rndChoice = 14) _and (moveType <> 2) _and bookIsActive _and  (uncertaintyBits > 0) : _(
     rndChoice :=   chkRandom( 1 );
     write('КАЖЕТСЯ Я ДЕЛАЮ ПЛОХОЙ ХОД.');
-  _); (* 7140 *)
+  _);
   (rndChoice > 14) _and (rndChoice < 17) _and (jinnStones - lastJinnKalah > 4) : _(
     rndChoice :=   chkRandom( 5 );
     write('Я ВЫИГРАЛ ', (jinnStones - lastJinnKalah):1, ' КАМНЕЙ !');
-  _); (* 7157 *)
+  _);
   rndChoice = 17 : _(
     rndChoice :=   chkRandom( 9 );
     _select
@@ -1929,7 +1932,7 @@ _( (* generateAIPhrase *)
     rndChoice = 8 : write('КУПИ СЕБЕ ВЕРБЛЮДА !');
     true:           write('АЛЛАХ ВЕЛИК !!!')
     _end
-    _); (* 7241 *)
+    _);
     (rndChoice = 18) _and (userStones - lastUserKalah > 10) : _(
       rndChoice := chkRandom( 1 );
       write('КАКОЙ УДАР ТЫ МНЕ НАНЕС');
@@ -1942,7 +1945,7 @@ _( (* generateAIPhrase *)
       knownGender = MASC : write('Я ДУМАЮ, ТЫ ВСЕ-ЖЕ ХАНУМ.');
       knownGender = FEM  : write('Я ДУМАЮ, ВСЕ-ЖЕ ТЫ НЕ ХАНУМ.')
       _end
-    _); (* 7276 *)
+    _);
     (rndChoice = 20) _and (curThinkTime > 300) : _(
       rndChoice :=   chkRandom( 6 );
       write('ТЫ ДУМАЛ');
@@ -1956,13 +1959,13 @@ _( (* generateAIPhrase *)
         rndChoice = 3 : suffixChar := space
       _end;
       write(suffixChar, excl:2);
-    _); (* 7340 *)
+    _);
     (rndChoice = 21) _and (userStones - jinnStones > 10) _and  (difficultyLevel > 3) : _(
       rndChoice :=   chkRandom( 1 );
       write('СДАВАЙСЯ, ПОДАРЮ ТЕБЕ ');
       _if userStones - jinnStones > 15 _then write('ВЕРБЛЮДА !')
       _else write('БУХАРСКУЮ ДЫНЮ !');
-    _); (* 7361 *)
+    _);
     (rndChoice = 22) _and (moveType <> 2) : _(
       rndChoice :=   chkRandom( 2 );
       (loop) _for loopVar := 1 _to 6 _do _(
@@ -1985,7 +1988,7 @@ _( (* generateAIPhrase *)
           _)
         _)
       _);
-    _); (* 7436 *)
+    _);
     (rndChoice = 23) _and (difficultyLevel > 2) : _(
       rndChoice :=   chkRandom( 8 );
       _select
@@ -1993,7 +1996,7 @@ _( (* generateAIPhrase *)
         rndChoice = 2 : write('ЧЕРНЫЕ ')
       _end;
       _if rndChoice < 3 _then write('ДЖИННЫ ОЧЕНЬ ОПАСНЫ !');
-    _); (* 7457 *)
+    _);
     rndChoice = 24 : _(
       rndChoice :=   chkRandom( 8 );
       _select
@@ -2005,13 +2008,13 @@ _( (* generateAIPhrase *)
        (rndChoice = 4) _and (userAge > 30) :
           write('ЕСЛИ ТЕБЕ НУЖНА МАХАББА, СООБЩИ МНЕ ОБ ЭТОМ.')
       _end
-   _); (* 7514 *)
+   _);
    (rndChoice = 25) _and (difficultyLevel > 2) _and (jinnStones - userStones > 10) : _(
     rndChoice :=   chkRandom( 2 );
     write('ВЫИГРАЕШЬ - ');
     _if rndChoice = 1 _then  write('ПОЛУЧИШЬ ТАМРИД.')
     _else write('ДАМ ТЕБЕ ТЕТВИФ.');
-  _); (* 7534 *)
+  _);
   (rndChoice = 26) _and (knownGender = MASC) _and (difficultyLevel > 2) _and (totalMovesPlayed > 5) : _(
     rndChoice :=   chkRandom( 6 );
     _select
@@ -2019,7 +2022,7 @@ _( (* generateAIPhrase *)
       rndChoice = 2 : write('СОЗНАЙСЯ, АЙША КАДЕША')
     _end;
     _if rndChoice < 3 _then write(' С ТОБОЙ НЕ ВСТРЕЧАЛАСЬ ?');
-  _); (* 7560 *)
+  _);
   moveType <> 2 : _(
     oppositePit := 0;
     hasKalah := ;
@@ -2032,14 +2035,14 @@ _( (* generateAIPhrase *)
         _if (pitNum = 7) _or (pitNum = 20) _then hasKalah := true
         _else hasNonKalah := true;
       _)
-    _); (* 7605 *)
+    _);
     rndChoice :=   chkRandom( 4 );
    _select
     oppositePit = 1 : _select
      rndChoice = 1 : write('НЕЧЕГО ДУМАТЬ - ХОДИ !');
      rndChoice = 2 : write('ТЕПЕРЬ ТЕБЕ ДУМАТЬ НЕЧЕГО - ХОДИ !');
      true: write('У ТЕБЯ ВСЕГО ОДИН ХОД.')
-      (* 7624 *)
+
      _end;
      hasKalah _and hasNonKalah : _select
        rndChoice = 1 : write('НЕ СОВЕТУЮ ХОДИТЬ В КАЛАХ.');
@@ -2047,7 +2050,7 @@ _( (* generateAIPhrase *)
        rndChoice = 3 : write('НА ХОД В КАЛАХ ОСОБЕННО НЕ НАДЕЙСЯ.');
        true: write('ПОСМОТРЮ, ПОЙДЕШЬ ЛИ В КАЛАХ ?')
      _end
-    (* 7647 *)
+
   _end
    _)
   _end;
@@ -2169,13 +2172,13 @@ _(
     _if total1 = 0 _then _(
       compareScoreEntries := false;
       exit
-    _); (* 10135 *)
+    _);
     wins2 := sel(entry2, 8, 8);
     loss2 := sel(entry2, 0, 8);
     total2 := loss2 + wins2;
     _if total2 = 0 _then
       result := true
-    _else _( (* 10145 *)
+    _else _(
       cross1 := wins1 * total2;
       cross2 := wins2 * total1;
       _if cross1 = cross2 _then _(
@@ -2185,11 +2188,11 @@ _(
           result := ((wins1 > loss1) _and (wins1 > wins2)) _or
                     ((wins1 < loss1) _and (wins1 < wins2));
         _)
-      _) _else _( (* 10175 *)
+      _) _else _(
         result := cross1 > cross2;
       _)
     _)
-  _); (* 10202 *)
+  _);
   compareScoreEntries := result;
   _if result _then _(
     zoneBuffer@[idx1].i := entry2;
@@ -2257,7 +2260,7 @@ _( (* playGameSession *)
     INP@ = charEtx :;
     true : _( 999: writeln('НЕПОНЯТНО'); exit _)
     _end;
-     (* 10331 *)
+
     cmdResult := readCommand(cmdString, 3);
     _if INP@ <> charEtx _then _goto 10266;
     _if (levelChoice = 0) _or (startPlayer = 2) _then _(
@@ -2268,11 +2271,11 @@ _( (* playGameSession *)
       readTerminalInput(false);
       _goto 10266
   _)
-    _) _else _( (* 10361 *)
+    _) _else _(
     writeln('ТУРНИР ЗАКРЫТ');
    _GOTO 12561;
   _)
-  _); (* 10366 *)
+  _);
   knownGender := shift(userData.userGender, 46);
   defWeights := [0, 572, 136, 16, 53, 33, 110, 80];
   weights := defWeights;
@@ -2307,7 +2310,7 @@ _( (* playGameSession *)
     totalMovesPlayed := getDigit( 10 );
     packPosition(curPosition, pckPosition);
     dsplGameHeader;
-  _) _else _( (* 10517 *)
+  _) _else _(
     lockZone66;
     readDiskZone( nu, zonePlayers );
     usedSlots := zoneBuffer@[3].s;
@@ -2326,7 +2329,7 @@ _( (* playGameSession *)
         writeDiskZone( nu, zonePlayers );
         _exit loop
       _);
-    _); (* 10565 *)
+    _);
     unlockZone66;
     _if isResumedGame _then _(
       totalMovesPlayed := sel(slotPtr@.log[4], 8, 8);
@@ -2342,7 +2345,7 @@ _( (* playGameSession *)
       pckPosition[0].i := 60606060606000C;
       pckPosition[1].i := 1060606060606000C;
       totalMovesPlayed := 1;
-    _); (* 10624 *)
+    _);
     _for entryIndex := 1 _to numScoreEntries _do _(
       scoreEntry := zoneBuffer@[1008 - entryIndex].a;
       code(2ЛУ4=2ЗЧ11,);
@@ -2367,10 +2370,10 @@ _( (* playGameSession *)
       difficultyLevel := levelChoice;
       curPosition[jinn].move.i := startPlayer;
       curPosition[user].move.i := 1 - startPlayer;
-    _); (* 10674 *)
+    _);
     dsplGameHeader;
     updateStatistics( 6 );
-  _); (* 10677 *)
+  _);
   moveResult := 0;
   lastMoveResult := ;
   animDelay := animSpeed + 1 - difficultyLevel _div 2;
@@ -2379,11 +2382,11 @@ _( (* playGameSession *)
     difficultyLevel = 1 : _( searchDepth := 2; maxNodesToSearch := 37 _);
     difficultyLevel = 2 : _( searchDepth := 2; maxNodesToSearch := 600 _);
     difficultyLevel > 2 : _( searchDepth := 4; maxNodesToSearch := 2500; useOpeningBook := true _)
-  _end; (* 10723 *)
+  _end;
  _if isResumedGame _or testMode _then _(
    useOpeningBook := false;
    _if testMode _then  enableLogging := false;
-  _); (* 10731 *)
+  _);
   _if isTrainingGame _then enableLogging := false;
   enableLogging := enableLogging _and (difficultyLevel > 2);
   _if enableLogging _then _(
@@ -2396,20 +2399,20 @@ _( (* playGameSession *)
       _else logChar('П');
       logChar( space );
     _)
-  _); (* 10761 *)
+  _);
   _if useOpeningBook _then _(
     readDiskZone( 0, zoneOpeningBook );
     _if zoneBuffer@[35].a <> '!ДЕБЮТ' _then _(
       writeln('ИСПОРЧЕНЫ ДЕБЮТЫ - "ЧП" !!');
       _GOTO 12561;
     _)
-  _); (* 10773 *)
+  _);
 10773:
   _if checkRemainingTime _then _if isTrainingGame _then _(
       _goto 12341;
-    _) _else _( (* 11000 *)
+    _) _else _(
     _goto 11225;
-  _); (* 11001 *)
+  _);
   currentPlayer := curPosition[user].move.i;
   _if currentPlayer = jinn _then _(
     writeCharNTimes( up, 7 );
@@ -2422,7 +2425,7 @@ _( (* playGameSession *)
     writeTerminalOutput;
   _) _else
     upLines := 1;
-  (* 11024 *)
+
   userFinalKalah := 0;
   _if currentPlayer = user _then _(
 11027:
@@ -2431,7 +2434,7 @@ _( (* playGameSession *)
     writeCharNTimes( space, inputLength );
     writeCharNTimes( up, 1 );
     writeTerminalOutput;
-  _); (* 11040 *)
+  _);
   inputTicks :=   wallClockTicks;
   readTerminalInput(false);
   curThinkTime := wallClockTicks - inputTicks;
@@ -2452,12 +2455,12 @@ _( (* playGameSession *)
     get(INP);
     _if (INP@ = ',') _or (INP@ = space) _then
     get(INP);
-  _); (* 11115 *)
+  _);
   _if movesInBuffer = 0 _then _(
     movesInBuffer := 1;
     moveBuffer[1] := chr(0);
   _);
-  _) _else _goto 11772; (* 11123 *)
+  _) _else _goto 11772;
   _if readCommand(inputCmd, 3) _then _(
     _if matchesCommand( 'СДА   ') _then _(
       jinnFinalKalah := curPosition[jinn].pits[7].val;
@@ -2470,7 +2473,7 @@ _( (* playGameSession *)
         _goto 12244;
       _) _else
         _goto 11225;
-    _); (* 11150 *)
+    _);
     _if matchesCommand( 'ПОВ   ') _then _(
       write(erase);
       packPosition(curPosition, pckPosition);
@@ -2479,7 +2482,7 @@ _( (* playGameSession *)
       inputLength := ;
       cursorCol := ;
       _goto 10773;
-    _); (* 11164 *)
+    _);
     _if matchesCommand( 'ПРА   ') _then _(
       rules;
       write(erase);
@@ -2507,7 +2510,7 @@ _( (* playGameSession *)
         movesInBuffer := 0;
         _goto 12013
       _)
-    _); (* 11216 *)
+    _);
     jinnFinalKalah := curPosition[jinn].pits[7].val;
     userFinalKalah := curPosition[user].pits[7].val;
     _if (jinnFinalKalah > 36) _or (userFinalKalah > 36) _then _goto 11142;
@@ -2522,7 +2525,7 @@ _( (* playGameSession *)
       dsplBoard(pckPosition);
       userFinalKalah := 3;
       code(ЗЧ76013=,);
-  _); (* 11246 *)
+  _);
   write('ИГРА ОТЛОЖЕНА');
   writeTerminalOutput;
 11252:
@@ -2538,7 +2541,7 @@ _( (* playGameSession *)
     write('ОТЛОЖИТЬ ИГРУ НЕ УДАЛОСЬ');
     writeTerminalOutput;
   _goto 12341;
-  _); (* 11300 *)
+  _);
   slotPtr := ptr(savedGameSlot * 21 + 64004C);
   usedSlots := usedSlots + [savedGameSlot];
   zoneBuffer@[3] := ;
@@ -2589,7 +2592,7 @@ _( (* playGameSession *)
     statsPtr@[8].i := statsPtr@[8].i + deepenCount;
     statsPtr@[9].i := statsPtr@[9].i + jinnWins;
     statsPtr@[10].i := statsPtr@[10].i + userWins;
-  _); (* 11473 *)
+  _);
   _if isTrainingGame _then statsPtr@[11].i := statsPtr@[11].i + 1;
   _for entryIndex := 1 _to numScoreEntries _do _(
     scoreEntry := zoneBuffer@[1008 - entryIndex].a;
@@ -2658,7 +2661,7 @@ _( (* playGameSession *)
     scorePos := 1008 - 2;
     (loop) _for currentPlayer := insertPos _to scorePos _do _(
       _if _not compareScoreEntries( currentPlayer, currentPlayer + 1) _then _exit loop;
-    _); (* 11655 *)
+    _);
     _if 28 _IN userData.permFlags _then _(
       _repeat
         cmdResult := true;
@@ -2673,7 +2676,7 @@ _( (* playGameSession *)
          _if _not compareScoreEntries( currentPlayer - 1, currentPlayer) _then _exit loop;
        _);
      _)
-    _); (* 11712 *)
+    _);
     _if (hasScore _or isResumedGame) _and _not testMode _then
       writeDiskZone( nu, zonePlayers );
 % 11721
@@ -2683,7 +2686,7 @@ _( (* playGameSession *)
       unpLog[2] := resultChar;
       pck(unpLog[1], logPacked[5]);
       saveLogToZone;
-    _); (* 11741 *)
+    _);
     unlockZone66;
     _if _not isTrainingGame _then _(
     _if _not hasScore _then
@@ -2696,9 +2699,9 @@ _( (* playGameSession *)
        _);
        writeTerminalOutput;
       _)
-    _); (* 11767 *)
+    _);
     _goto 12341;
-   _)_); (* 11770 *)
+   _)_);
   procInputChars;
   lastMoveResult := 0;
 11772:
@@ -2719,7 +2722,7 @@ _( (* playGameSession *)
     _goto 12013;
   _);
   writeCharNTimes(up, upLines );
-  _) _else 12032: _( (* 12032 *)
+  _) _else 12032: _(
     userFinalKalah := userFinalKalah + 1;
     nodesThisMove := nodesSearched;
     _if gameIsDecided _then searchDepth := 2;
@@ -2740,9 +2743,9 @@ _( (* playGameSession *)
       seledMove :=   selAIMove(curPosition, weights, actualDepth + extraDepth);
       deepenCount := deepenCount + 1;
       nodesThisMove := nodesSearched - nodesThisMove;
-    _); (* 12111 *)
+    _);
     movesInBuffer := 0;
-  _); (* 12112 *)
+  _);
   _if useCorrections _and (curMoveNumber < 15) _then
     seledMove := applyLearningCorrection( seledMove );
   posBeforeMove := curPosition;
@@ -2773,14 +2776,14 @@ _( (* playGameSession *)
       useOpeningBook := false;
       useCorrections := true;
     _)
-  _); (* 12176 *)
+  _);
   rndnessFactor := 144 - (curPosition[jinn].pits[7].val + curPosition[user].pits[7].val) * 4;
   _if rndnessFactor < 10 _then rndnessFactor := 10;
    curMoveNumber := curMoveNumber + 1;
    _if moveResult = 1 _then _(
      totalMovesPlayed := totalMovesPlayed + 1;
      _if enableLogging _then logChar(space);
-  _); (* 12214 *)
+  _);
   _if isGameOver(curPosition) _then _(
     userFinalKalah := currentPlayer + 1;
     _if moveResult = 2 _then  userFinalKalah := userFinalKalah + 1 - currentPlayer * 2;
@@ -2820,7 +2823,7 @@ _( (* playGameSession *)
       resultChar := '-';
       userWins := 1;
     _)
-  _end; (* 12326 *)
+  _end;
   writeTerminalOutput;
   isResumedGame := false;
   _if testMode _then _goto 12341;
@@ -2836,7 +2839,7 @@ _( (* playGameSession *)
     userData.systemFlags := userData.systemFlags + [47];
     write(INP,'СОN  {377');
     _GOTO 12633;
-  _); (* 12356 *)
+  _);
   writeJinnName;
   write('ДУМАЛ ', (jinnThinkingTime + 25) _DIV 50:1, ' СЕК');
   writeTerminalOutput;
@@ -2933,7 +2936,7 @@ _(
          12636: writeln('В БЛОКЕ НЕТ ПРИКАЗА ', commandEntered)
       _else
         _goto 12633
-  _end _else  (* 12650 *)
+  _end _else
     writeln('НЕ ПОНИМАЮ');
   _goto 12561;
 _).

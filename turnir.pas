@@ -453,7 +453,7 @@ _(
    l2v1z = 'КАЛ   ': schKalah;
    l2v1z = 'ТУР   ': schTourn;
    l2v1z = 'ШКО   ': _goto 2413;
-   (l2v1z = 'КОН   ') | (l2v1z = 'ВЫХ   '): exit;
+   (l2v1z = 'КОН   ') _or (l2v1z = 'ВЫХ   '): exit;
    true: _( putCmd( 'ШКО   ' );
      write(INP, l2v1z);
      INP@ := etx;
@@ -604,7 +604,7 @@ _( (* fora *)
     true: currCat := currCat + 1
     _end;
  _);
- _if (currCat = 3) & (currHum + currJin < 25) & (prevTot >= 25) _then _(
+ _if (currCat = 3) _and (currHum + currJin < 25) _and (prevTot >= 25) _then _(
    delta := 25 - currHum - currJin;
    accum := accum + delta;
    currHum := currHum + delta;
@@ -615,7 +615,7 @@ _( (* fora *)
  _for i := 0 _to limit _do _(
    _if wldRank(currHum + i) _then _(  fora := accum + i; EXIT _);
  _);
- _if (currCat = 3) & (prevTot < 25) _then fora := accum + 25 - currHum - currJin
+ _if (currCat = 3) _and (prevTot < 25) _then fora := accum + 25 - currHum - currJin
  _else fora := 256;
 _);
 _( (* tournament *)
@@ -635,12 +635,11 @@ _( (* tournament *)
  _);
  L1321;
  delete := INP@ = 'И';
- _if delete _then _(
-   checkAdmin;
-   enq66;
- _);
+ _if delete _then checkAdmin;
+  enq66;
   readZone(66B, zonePlayers);
   nEnt := pptr@[1];
+  _if _not delete _then deq66;
   _if delete  _then _(
     _if uidDigs <> 4 _then _(
       writeln('ОШ ШИФ');
@@ -699,12 +698,13 @@ _( (* tournament *)
     INP@ = 'Э': n := 1;
     INP@ = 'С': stats := true
   _end;
-  catSet := [n] | catSet;
+  catSet := [n] + catSet;
   get(INP);
  _);
  catSet := catSet - [0];
   _); (* 3177 *)
-  write('    ТУРНИР  " Д Ж И Н Н - Ч Е Л О В Е К "');
+  write('    ТУРНИР  " Д Ж И Н Н - Ч Е Л О В Е К  Z"');
+  write(' N=', nEnt:12);
   writeTerminalOutput;
   write('С ':6);
   (*=c-*)wrDate(pptr@[1008] ); (*=c+*)
@@ -713,7 +713,7 @@ _( (* tournament *)
   write('  НА ', getTime );
   writeTerminalOutput;
   drawLine( '=' );
- _if _not stats | (catSet <> []) _then _(
+ _if _not stats _or (catSet <> []) _then _(
     write('  IМЕСТО ШИФР  ФАМИЛИЯ      НОМО  ДЖИН ФОРI');
    _if admin  _then  write(' ОТЛ');
    writeTerminalOutput;
@@ -741,8 +741,8 @@ _( (* tournament *)
   Djin := sel(curRec, 0, 8);
   Homo := sel(curRec, 8, 8);
   _if curCat > 2 _then_(
-   _if (curCat = 3) & _not aboveDots  & (Djin + Homo >= 25) _then  curCat := 0;
-   _if (curCat = 3) & aboveDots  & (Djin + Homo < 25) _then  curCat := 0;
+   _if (curCat = 3) _and _not aboveDots  _and (Djin + Homo >= 25) _then  curCat := 0;
+   _if (curCat = 3) _and aboveDots  _and (Djin + Homo < 25) _then  curCat := 0;
   _); (* 3327 *)
   _if categ = curCat _then _(
     pos := pos + 1;
@@ -761,7 +761,7 @@ _( (* tournament *)
       getUserName( curUID, name2 );
       write(space:2, curUID, name2, Homo:5, Djin:5);
       i :=   fora( Homo, Djin, initCat );
-      _if (totDispl > 1) & (i = 0) _then  userData.g38z := userData.g38z + [28];
+      _if (totDispl > 1) _and (i = 0) _then  userData.g38z := userData.g38z + [28];
       _select
         i < 256: write( i:4 );
         true:    write('  >>')
@@ -777,7 +777,7 @@ _( (* tournament *)
     _);
   _); (* 3446 *)
   _); (* 3450 *)
-  _if (categ = 3) & aboveDots _then _(
+  _if (categ = 3) _and aboveDots _then _(
     aboveDots := false;
     drawLine( '.' );
     _goto 3275;
@@ -788,7 +788,7 @@ _( (* tournament *)
   writeTerminalOutput;
   drawLine( '=' );
   _); (* 3477 *)
-  _if admin | stats _then _(
+  _if admin _or stats _then _(
     write(' ТРЕН ПАРТ ВЫИГ СДАЛ');
     write('    ВЦП    ДУМ   СЕАН   ЭНТР    ПОЗ    ХОД   СРЕЗ   УСИЛ');
     writeTerminalOutput;
@@ -813,7 +813,7 @@ _(
  startCpuTime := ;
  code(Э05310=,);
  startWallClock := ;
- pptr := ptr(64000B);
+ pptr := ptr(64000C);  % окно зоны ЭКВ 77451 (как zoneBuffer в КАЛАХе)
  ЗАПРЕТ := true;
  code(СЧ76233=);
  tambov := ;
